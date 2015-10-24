@@ -1,24 +1,9 @@
 (function(){
 
-  app = angular.module('app', ['ionic']);
-
-  app.controller('SlideCtrl', function($scope) {
-
-    $scope.slides = [];
-    for (var i = 1; i <= 5; i++){
-      $scope.slides.push({
-        title: 'Slide #' + i,
-        description: 'This is the slide number ' + i
-      });
-    }
-
-    $scope.activeSlide = 0;
-
-    $scope.setSlide = function(index){
-      $scope.activeSlide = index;
-    };
-
-  }); 
+  app = angular.module('nutriking', [
+    'ionic',
+    'nutriking.controllers.slide'
+  ]);
 
   app.run(function($ionicPlatform) {
     $ionicPlatform.ready(function() {
@@ -31,5 +16,20 @@
       }
     });
   })
+
+  app.config(function ($stateProvider, $urlRouterProvider) {
+    $stateProvider
+      .state('slide', {
+        url: "/slide",
+        cache: false,
+        controller: 'SlideCtrl',
+        templateUrl: "templates/slide.html"
+      });
+
+    // if none of the above states are matched, use this as the fallback
+    $urlRouterProvider.otherwise('/slide');
+
+  });
+
 
 }());
